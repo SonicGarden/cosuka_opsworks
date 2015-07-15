@@ -1,8 +1,9 @@
 # CosukaOpsworks
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/cosuka_opsworks`. To experiment with that code, run `bin/console` for an interactive prompt.
+RailsアプリをOpsWroksで動かす際に以下の機能を提供
 
-TODO: Delete this and the text above, and describe your gem
+* ELBによるHealthcheckのための受け口を提供（DB疎通確認あり）
+* ${RAILS_ROOT}/tmp/stop.txt 配置でメンテナンス画面を表示
 
 ## Installation
 
