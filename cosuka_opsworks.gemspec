@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["interu"]
   spec.email         = ["interu@sonicgarden.jp"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = %q{AWS OpsWorks Utility}
+  spec.description   = %q{Support ELB Healthcheck and Maintenance mode.}
   spec.homepage      = "https://github.com/SonicGarden/cosuka_opsworks"
   spec.license       = "MIT"
 
