@@ -21,8 +21,10 @@ And then execute:
 
 Add in config/application.rb
 
-    require 'cosuka_opsworks/healthcheck'
-    config.middleware.use CosukaOpsworks::Healthcheck
+    if Rails.env.staging? or Rails.env.production?
+      require 'cosuka_opsworks/healthcheck'
+      config.middleware.insert_before ActionDispatch::SSL, CosukaOpsworks::Healthcheck
+      require 'cosuka_opsworks/maintenance'
+      config.middleware.use CosukaOpsworks::Maintenance
+    end
 
-    require 'cosuka_opsworks/maintenance'
-    config.middleware.use CosukaOpsworks::Maintenance
