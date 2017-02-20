@@ -1,0 +1,9 @@
+Description:
+    For opsworks deployment hook files
+
+Example:
+    rails generate opsworks_deploy
+
+    This will create:
+        deploy/after_restart.rb
+        deploy/before_migrate.rb

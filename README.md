@@ -17,14 +17,6 @@ And then execute:
 
     $ bundle
 
-## Usage
+And generate deployment hook files
 
-Add in config/application.rb
-
-    if Rails.env.staging? or Rails.env.production?
-      require 'cosuka_opsworks/healthcheck'
-      config.middleware.insert_before ActionDispatch::SSL, CosukaOpsworks::Healthcheck
-      require 'cosuka_opsworks/maintenance'
-      config.middleware.use CosukaOpsworks::Maintenance
-    end
-
+    $ bin/rails g cosuka_opsworks
