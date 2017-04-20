@@ -5,6 +5,10 @@ RailsアプリをOpsWroksで動かす際に以下の機能を提供
 * ELBによるHealthcheckのための受け口を提供（DB疎通確認あり）
 * ${RAILS_ROOT}/tmp/stop.txt 配置でメンテナンス画面を表示
 
+## 注意
+
+chef11の環境で利用する場合は、 __chef11__ ブランチを利用してください。
+
 ## Installation
 
 Add this line to your application's Gemfile:
