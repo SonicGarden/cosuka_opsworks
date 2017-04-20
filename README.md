@@ -27,3 +27,5 @@ And generate deployment hook files
 
 Replace app-name in config/backup.rb:10
 
+    app_name = 'sample-app-name'
+
