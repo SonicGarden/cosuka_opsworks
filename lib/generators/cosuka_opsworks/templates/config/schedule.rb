@@ -8,9 +8,7 @@ rails_env = ENV['RAILS_ENV'] || ENV['RACK_ENV']
 
 env :CRON_TZ, 'Japan'
 env :PATH, '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-%w(MASTER_HOST).each do |key|
-  env key.to_sym, ENV[key]
-end
+env :MASTER_HOST, ENV['MASTER_HOST']
 set :environment, rails_env
 set :job_template, nil
 set :path, "/srv/www/#{app_name}/current"

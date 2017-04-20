@@ -24,3 +24,6 @@ And then execute:
 And generate deployment hook files
 
     $ bin/rails g cosuka_opsworks
+
+Replace app-name in config/backup.rb:10
+

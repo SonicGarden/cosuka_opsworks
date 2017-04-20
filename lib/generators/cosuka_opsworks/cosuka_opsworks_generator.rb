@@ -4,7 +4,6 @@ class CosukaOpsworksGenerator < Rails::Generators::Base
   desc 'For opsworks deployment hook files'
   def opsworks_deploy
     template 'deploy/after_restart.rb'
-    template 'deploy/before_migrate.rb'
     template 'config/backup.rb'
     template 'config/schedule.rb'
   end

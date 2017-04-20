@@ -7,7 +7,7 @@ require 'socket'
 host_name = Socket.gethostname
 log_file_name_sym = (host_name + '_log').to_sym
 
-app_name = 'madrebonita'
+app_name = 'sample-app-name'
 timestamp = Date.today.strftime('%Y%m%d')
 rails_root    = "/srv/www/rails/current"
 log_directory = "#{rails_root}/log"
@@ -19,7 +19,7 @@ mandrill = secrets[rails_env]['mandrill']
 aws_s3 = secrets[rails_env]['s3']
 
 require 'dotenv'
-Dotenv.load("#{rails_root}/.env.#{rails_env}")
+Dotenv.load("#{rails_root}/.env")
 
 Storage::S3.defaults do |s3|
   s3.access_key_id      = ENV['AWS_ACCESS_KEY_ID']
@@ -59,12 +59,12 @@ Backup::Model.new(:data, 'App Data Backup') do
     s3.bucket             = aws_s3['backup']['data_bucket']
     s3.region             = aws_s3['backup']['region']
     s3.path               = "/#{app_name}"
-    s3.keep               = 365
+    s3.keep               = 20
   end
 
   notify_by Mail do |mail|
     mail.on_success = false
-    mail.on_warning = false
+    mail.on_warning = true
     mail.on_failure = true
   end
 end

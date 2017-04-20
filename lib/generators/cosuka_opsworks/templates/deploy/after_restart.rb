@@ -1,30 +1,25 @@
+Chef::Log.info('[INFO] Start deploy/after_restart.rb')
+require 'socket'
 app = :rails
 role = "rails-app"
-
-Chef::Log.info('[INFO] Start deploy/after_restart.rb')
-env = node[:deploy][app][:rails_env]
-hostname = node[:opsworks][:instance][:hostname]
-master_server = node[:opsworks][:layers][role][:instances].keys.sort.first.to_s
-current_release = release_path
+hostname = Socket.gethostname
 deploy_user = 'deploy'
 time = Time.now.strftime("%Y%m%d_%H%M_%Z")
+current_release = release_path
+Chef::Log.info("[INFO] Execute after_restart.rb in #{hostname}. USER:#{deploy_user}, CWD:#{current_release}")
 
-Chef::Log.info("[INFO] Execute after_restart.rb in #{hostname}. ENV:#{env} CWD:#{current_release} USER:#{deploy_user}")
+Chef::Log.info("[INFO] Analize node info")
+env = node[:deploy][app][:global][:environment]
+Chef::Log.info("[INFO] Detected ENV:#{env}")
 
-Chef::Log.info("[INFO] Detect master server. hostname:#{hostname} master_server:#{master_server}")
+# ref) http://docs.aws.amazon.com/ja_jp/opsworks/latest/userguide/data-bag-json-instance.html
+master_server_hostname = search("aws_opsworks_instance", "status:online OR status:running_setup OR status:requested OR status:booting").map{|instance| instance['hostname']}.sort.first
+Chef::Log.info("[INFO] Detected MASTER_SERVER_HOSTNAME:#{master_server_hostname}")
 
+Chef::Log.info("[INFO] update crontab")
 execute 'update crontab' do
   user deploy_user
   cwd current_release
-  command 'bundle exec whenever -i rails'
-  environment 'RAILS_ENV' => env, 'MASTER_HOST' => master_server
-end
-
-if env.to_s == 'production'
-  execute 'git tag and push' do
-    user deploy_user
-    cwd current_release
-    command "git tag #{time}-#{hostname} HEAD && git push --tag"
-    environment 'RAILS_ENV' => env
-  end
+  command '/usr/local/bin/bundle exec whenever -i rails'
+  environment 'RAILS_ENV' => env, 'MASTER_HOST' => master_server_hostname
 end

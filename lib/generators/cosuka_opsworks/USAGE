@@ -6,4 +6,3 @@ Example:
 
     This will create:
         deploy/after_restart.rb
-        deploy/before_migrate.rb
