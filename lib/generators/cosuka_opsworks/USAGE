@@ -5,4 +5,5 @@ Example:
     rails generate opsworks_deploy
 
     This will create:
+        deploy/before_migrate.rb
         deploy/after_restart.rb
