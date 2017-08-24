@@ -12,6 +12,7 @@ rails_root    = "/srv/www/rails/current"
 log_directory = "#{rails_root}/log"
 
 host_name = Socket.gethostname
+data_file_name_sym = (host_name + '_data').to_sym
 log_file_name_sym = (host_name + '_log').to_sym
 timestamp = Date.today.strftime('%Y%m%d')
 
@@ -44,7 +45,13 @@ Compressor::Gzip.defaults do |compression|
   compression.level = 6
 end
 
-Backup::Model.new(:data, 'App Data Backup') do
+Encryptor::OpenSSL.defaults do |encryption|
+  encryption.password = ENV['ENCRYPTION_KEY']
+  encryption.base64   = true
+  encryption.salt     = true
+end
+
+Backup::Model.new(data_file_name_sym, 'App Data Backup') do
   split_into_chunks_of 4000
 
   database PostgreSQL do |database|
@@ -56,6 +63,7 @@ Backup::Model.new(:data, 'App Data Backup') do
   end
 
   compress_with Gzip
+  # encrypt_with OpenSSL
 
   store_with S3 do |s3|
     s3.bucket             = aws_s3['backup']['data_bucket']
@@ -77,6 +85,7 @@ Backup::Model.new(log_file_name_sym, 'App Log Backup') do
   end
 
   compress_with Gzip
+  # encrypt_with OpenSSL
 
   store_with S3 do |s3|
     s3.bucket             = aws_s3['backup']['log_bucket']
