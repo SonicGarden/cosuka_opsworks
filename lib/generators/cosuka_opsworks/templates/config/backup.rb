@@ -59,7 +59,6 @@ Backup::Model.new(:data, 'App Data Backup') do
     s3.bucket             = aws_s3['backup']['data_bucket']
     s3.region             = aws_s3['backup']['region']
     s3.path               = "/#{app_name}"
-    s3.keep               = 20
   end
 
   notify_by Mail do |mail|
@@ -81,7 +80,6 @@ Backup::Model.new(log_file_name_sym, 'App Log Backup') do
     s3.bucket             = aws_s3['backup']['log_bucket']
     s3.region             = aws_s3['backup']['region']
     s3.path               = "/#{app_name}"
-    s3.keep               = 365 * 5
   end
 
   notify_by Mail do |mail|
