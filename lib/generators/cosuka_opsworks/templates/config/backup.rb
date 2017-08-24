@@ -4,21 +4,23 @@
 # Documentation: http://meskyanichi.github.io/backup
 # Issue Tracker: https://github.com/meskyanichi/backup/issues
 require 'socket'
-host_name = Socket.gethostname
-log_file_name_sym = (host_name + '_log').to_sym
+require 'dotenv'
 
+rails_env = 'production'
 app_name = 'sample-app-name'
-timestamp = Date.today.strftime('%Y%m%d')
 rails_root    = "/srv/www/rails/current"
 log_directory = "#{rails_root}/log"
-rails_env = 'production'
-data = YAML.load_file("#{rails_root}/config/database.yml")
 
-secrets = YAML.load_file("#{rails_root}/config/secrets.yml")
+host_name = Socket.gethostname
+log_file_name_sym = (host_name + '_log').to_sym
+timestamp = Date.today.strftime('%Y%m%d')
+
+Dotenv.load("#{rails_root}/.env")
+data = YAML.load_file("#{rails_root}/config/database.yml")
+secrets = YAML.load(ERB.new(File.read("#{rails_root}/config/secrets.yml")).result)
 mandrill = secrets[rails_env]['mandrill']
 aws_s3 = secrets[rails_env]['s3']
 
-require 'dotenv'
 Dotenv.load("#{rails_root}/.env")
 
 Storage::S3.defaults do |s3|
@@ -59,7 +61,6 @@ Backup::Model.new(:data, 'App Data Backup') do
     s3.bucket             = aws_s3['backup']['data_bucket']
     s3.region             = aws_s3['backup']['region']
     s3.path               = "/#{app_name}"
-    s3.keep               = 20
   end
 
   notify_by Mail do |mail|
@@ -81,12 +82,11 @@ Backup::Model.new(log_file_name_sym, 'App Log Backup') do
     s3.bucket             = aws_s3['backup']['log_bucket']
     s3.region             = aws_s3['backup']['region']
     s3.path               = "/#{app_name}"
-    s3.keep               = 365 * 5
   end
 
   notify_by Mail do |mail|
     mail.on_success = false
-    mail.on_warning = false
+    mail.on_warning = true
     mail.on_failure = true
   end
 end
