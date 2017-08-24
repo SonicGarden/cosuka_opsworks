@@ -20,7 +20,7 @@ job_type :runner,  "cd :path && script/runner -e :environment ':task' :output"
 if rails_env == 'production'
   if host_name == ENV['MASTER_HOST']
     every 1.day, at: '2:00 am' do
-      command "backup perform -t data --config_file '#{backup_file}'"
+      command "backup perform -t #{host_name}_data --config_file '#{backup_file}'"
     end
   end
 
