@@ -22,8 +22,6 @@ secrets = YAML.load(ERB.new(File.read("#{rails_root}/config/secrets.yml")).resul
 mandrill = secrets[rails_env]['mandrill']
 aws_s3 = secrets[rails_env]['s3']
 
-Dotenv.load("#{rails_root}/.env")
-
 Storage::S3.defaults do |s3|
   s3.access_key_id      = ENV['AWS_ACCESS_KEY_ID']
   s3.secret_access_key  = ENV['AWS_SECRET_KEY_ID']
