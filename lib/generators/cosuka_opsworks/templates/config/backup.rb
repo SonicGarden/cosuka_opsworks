@@ -61,7 +61,7 @@ Backup::Model.new(data_file_name_sym, 'App Data Backup') do
   end
 
   compress_with Gzip
-  # encrypt_with OpenSSL
+  encrypt_with OpenSSL
 
   store_with S3 do |s3|
     s3.bucket             = aws_s3['backup']['data_bucket']
@@ -93,7 +93,7 @@ Backup::Model.new(log_file_name_sym, 'App Log Backup') do
 
   notify_by Mail do |mail|
     mail.on_success = false
-    mail.on_warning = true
+    mail.on_warning = false
     mail.on_failure = true
   end
 end
