@@ -14,7 +14,6 @@ log_directory = "#{rails_root}/log"
 host_name = Socket.gethostname
 data_file_name_sym = (host_name + '_data').to_sym
 log_file_name_sym = (host_name + '_log').to_sym
-timestamp = Date.today.strftime('%Y%m%d')
 
 Dotenv.load("#{rails_root}/.env")
 data = YAML.load_file("#{rails_root}/config/database.yml")
@@ -79,7 +78,7 @@ end
 Backup::Model.new(log_file_name_sym, 'App Log Backup') do
   archive :logs do |archive|
     archive.add "#{log_directory}/#{rails_env}.log"
-    archive.add "#{log_directory}/#{rails_env}.log-#{timestamp}"
+    archive.add "#{log_directory}/#{rails_env}.log.1"
   end
 
   compress_with Gzip
@@ -93,7 +92,7 @@ Backup::Model.new(log_file_name_sym, 'App Log Backup') do
 
   notify_by Mail do |mail|
     mail.on_success = false
-    mail.on_warning = false
+    mail.on_warning = true
     mail.on_failure = true
   end
 end
