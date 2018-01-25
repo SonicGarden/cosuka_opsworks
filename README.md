@@ -35,9 +35,8 @@ Replace app-name in config/backup.rb:10
 データバックアップ時の暗号化処理のための環境変数を本番サーバにのみに設定してください。
 値については下記でランダムな文字列を生成してください。
 
-```ruby
-> require 'securerandom'
-> SecureRandom.hex(13)
+```
+bundle exec rake secret
 ```
 
     ENCRYPTION_KEY='生成された値'
