@@ -14,17 +14,17 @@ set :job_template, nil
 set :path, "/srv/www/#{app_name}/current"
 set :output, "/srv/www/#{app_name}/current/log/batch.log"
 job_type :rake, "cd :path && RAILS_ENV=:environment bundle exec rake :task :output"
-job_type :command, "cd :path && RAILS_ENV=:environment bundle exec :task :output"
+job_type :backup, "cd :path && RAILS_ENV=:environment backup perform :task :output"
 job_type :runner,  "cd :path && script/runner -e :environment ':task' :output"
 
 if rails_env == 'production'
   if host_name == ENV['MASTER_HOST']
     every 1.day, at: '2:00 am' do
-      command "backup perform -t #{host_name}_data --config_file '#{backup_file}'"
+      backup "-t #{host_name}_data --config_file '#{backup_file}'"
     end
   end
 
   every 1.day, at: '7:10 am' do
-    command "backup perform -t #{host_name}_log --config_file '#{backup_file}'"
+    backup "-t #{host_name}_log --config_file '#{backup_file}'"
   end
 end

@@ -49,8 +49,6 @@ Encryptor::OpenSSL.defaults do |encryption|
 end
 
 Backup::Model.new(data_file_name_sym, 'App Data Backup') do
-  split_into_chunks_of 4000
-
   database PostgreSQL do |database|
     database.name               = data[rails_env]['database']
     database.username           = data[rails_env]['username']
