@@ -22,8 +22,8 @@ mandrill = secrets[rails_env]['mandrill']
 aws_s3 = secrets[rails_env]['s3']
 
 Storage::S3.defaults do |s3|
-  s3.access_key_id      = ENV['AWS_ACCESS_KEY_ID']
-  s3.secret_access_key  = ENV['AWS_SECRET_KEY_ID']
+  s3.access_key_id      = ENV.fetch('AWS_ACCESS_KEY_ID')
+  s3.secret_access_key  = ENV.fetch('AWS_SECRET_KEY_ID')
 end
 
 Notifier::Mail.defaults do |mail|
@@ -43,7 +43,7 @@ Compressor::Gzip.defaults do |compression|
 end
 
 Encryptor::OpenSSL.defaults do |encryption|
-  encryption.password = ENV['ENCRYPTION_KEY']
+  encryption.password = ENV.fetch('ENCRYPTION_KEY')
   encryption.base64   = true
   encryption.salt     = true
 end
