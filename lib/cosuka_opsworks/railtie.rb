@@ -2,7 +2,7 @@ require 'cosuka_opsworks/healthcheck'
 require 'cosuka_opsworks/maintenance'
 
 module CosukaOpsworks
-  class Engine < ::Rails::Engine
+  class Railtie < ::Rails::Railtie
     initializer :initialize_coska_opsworks do |app|
       unless ::Rails.env.in?(%w[development test])
         middleware = ::Rails.configuration.middleware
