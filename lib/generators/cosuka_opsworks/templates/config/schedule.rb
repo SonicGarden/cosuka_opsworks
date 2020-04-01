@@ -27,4 +27,8 @@ if rails_env == 'production'
   every 1.day, at: '7:10 am' do
     backup "-t #{host_name}_log --config_file '#{backup_file}'"
   end
+
+  every 5.minutes do
+    rake 'cosuka_opsworks:watch_disk_space'
+  end
 end
