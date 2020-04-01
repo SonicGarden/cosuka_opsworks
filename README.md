@@ -4,6 +4,7 @@ RailsアプリをOpsWroksで動かす際に以下の機能を提供
 
 * ELBによるHealthcheckのための受け口を提供（DB疎通確認あり）
 * ${RAILS_ROOT}/tmp/stop.txt 配置でメンテナンス画面を表示
+* ディスク残容量の監視
 
 ## 注意
 
