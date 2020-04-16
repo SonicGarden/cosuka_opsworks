@@ -5,7 +5,19 @@ namespace :cosuka_opsworks do
 
     usage_percentage = CosukaOpsworks::DiskSpace.usage(mount_point: args[:mount_point])
     if usage_percentage >= args[:threshold].to_i
-      raise "[#{CosukaOpsworks::DiskSpace.host_name}] Disk space now using #{usage_percentage}%"
+      raise "[#{Socket.gethostname}] Disk space now using #{usage_percentage}%"
+    end
+  end
+
+  desc 'Watch nginx connections'
+  task :watch_nginx_connection, [:threshold] => :environment do |_, args|
+    args.with_defaults(threshold: 80)
+
+    require 'cosuka_opsworks/nginx_status'
+    status = CosukaOpsworks::NginxStatus.new
+    usage_percentage = status.usage
+    if usage_percentage >= args[:threshold].to_i
+      raise "[#{Socket.gethostname}] Nginx connections now #{usage_percentage}% (#{status.active_connections}/#{status.worker_connections})"
     end
   end
 
