@@ -89,7 +89,7 @@ cosuka_opsworks:output_cron[staging]
 cosuka_opsworks:watch_disk_space[/,95]
 ```
 
-### `cosuka_opsworks:watch_nginx_connection[threshold]`
+### `cosuka_opsworks:watch_nginx_connections[threshold]`
 
 Nginx コネクション数が`threshold`%以上であれば例外を発生させます。
 
@@ -102,5 +102,5 @@ Nginx コネクション数が`threshold`%以上であれば例外を発生さ�
 Nginx コネクション数が`80`%以上
 
 ```
-cosuka_opsworks:watch_nginx_connection
+cosuka_opsworks:watch_nginx_connections
 ```

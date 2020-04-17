@@ -10,7 +10,7 @@ namespace :cosuka_opsworks do
   end
 
   desc 'Watch nginx connections'
-  task :watch_nginx_connection, [:threshold] => :environment do |_, args|
+  task :watch_nginx_connections, [:threshold] => :environment do |_, args|
     args.with_defaults(threshold: 80)
 
     require 'cosuka_opsworks/nginx_status'
