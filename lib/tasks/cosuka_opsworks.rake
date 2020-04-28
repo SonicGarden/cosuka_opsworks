@@ -40,8 +40,6 @@ namespace :cosuka_opsworks do
 
   desc 'Update crontab by config/schedule.rb'
   task update_cron: :environment do
-    require 'whenever'
-
     output_command = 'crontab -l | grep -v "# Begin Whenever" | grep -v "# End Whenever" | sed -e \'s/releases\/[0-9]\+/releases\/RELEASE_DIR/g\''
     old_tmp = Tempfile.open('crontab')
     old_crontab = `#{output_command} > #{old_tmp.path}`
