@@ -43,12 +43,12 @@ namespace :cosuka_opsworks do
     require 'whenever'
 
     output_command = 'crontab -l | grep -v "# Begin Whenever" | grep -v "# End Whenever" | sed -e \'s/releases\/[0-9]\+/releases\/RELEASE_DIR/g\''
-    old_tmp = Tempfile.open
+    old_tmp = Tempfile.open('crontab')
     old_crontab = `#{output_command} > #{old_tmp.path}`
 
     Kernel.system('/usr/local/bin/bundle exec whenever -i rails', exception: true)
 
-    new_tmp = Tempfile.open
+    new_tmp = Tempfile.open('crontab')
     new_crontab = `#{output_command} > #{new_tmp.path}`
 
     diff = `diff -u #{old_tmp.path} #{new_tmp.path}`
