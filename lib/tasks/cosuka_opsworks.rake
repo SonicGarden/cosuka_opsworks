@@ -42,16 +42,16 @@ namespace :cosuka_opsworks do
   task update_cron: :environment do
     require 'whenever'
 
+    output_command = "crontab -l | grep -v '# Begin Whenever' | grep -v '# End Whenever' | sed -e 's/releases\/[0-9]\+/releases\/RELEASE_DIR/g'"
     old_tmp = Tempfile.open
-    old_crontab = `crontab -l | grep -v "# Begin Whenever" | grep -v "# End Whenever" > #{old_tmp.path}`
+    old_crontab = `#{output_command} > #{old_tmp.path}`
 
     Kernel.system('/usr/local/bin/bundle exec whenever -i rails', exception: true)
 
     new_tmp = Tempfile.open
-    new_crontab = `crontab -l | grep -v "# Begin Whenever" | grep -v "# End Whenever" > #{new_tmp.path}`
+    new_crontab = `#{output_command} > #{new_tmp.path}`
 
     diff = `diff -u #{old_tmp.path} #{new_tmp.path}`
-
     if diff.present?
       CosukaOpsworks::DiffMailer.cron_diff(diff).deliver_now
     end
