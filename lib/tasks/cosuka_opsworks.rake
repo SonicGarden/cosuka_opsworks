@@ -45,7 +45,7 @@ namespace :cosuka_opsworks do
     old_tmp = Tempfile.open
     old_crontab = `crontab -l | grep -v "# Begin Whenever" | grep -v "# End Whenever" > #{old_tmp.path}`
 
-    Whenever::CommandLine.execute(update: true, identifier: 'rails')
+    Kernel.system('/usr/local/bin/bundle exec whenever -i rails', exeption: true)
 
     new_tmp = Tempfile.open
     new_crontab = `crontab -l | grep -v "# Begin Whenever" | grep -v "# End Whenever" > #{new_tmp.path}`
