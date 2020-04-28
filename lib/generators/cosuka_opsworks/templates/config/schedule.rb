@@ -14,9 +14,12 @@ set :job_template, nil
 set :path, File.realpath('../', __dir__)
 set :output, "#{path}/log/batch.log"
 set :backup_file, "#{path}/config/backup.rb"
+set :estimate_time, 180
+set :chronic_options, hours24: true
 
 job_type :rake, "cd :path && RAILS_ENV=:environment bundle exec rake :task :output"
 job_type :backup, "cd :path && RAILS_ENV=:environment backup perform :task :output"
+# job_type :jobmon, 'cd :path && RAILS_ENV=:environment bundle exec jobmon --estimate-time :estimate_time --task :task :output'
 
 if rails_env == 'production'
   if host_name == ENV['MASTER_HOST']
@@ -30,6 +33,8 @@ if rails_env == 'production'
   end
 end
 
-every 5.minutes do
+every 30.minutes do
   rake 'cosuka_opsworks:watch_disk_space'
+  # NOTE: jobmonを利用する場合は、job_type :jobmonを有効にした上でこちら推奨
+  # jobmon 'cosuka_opsworks:watch_disk_space'
 end
