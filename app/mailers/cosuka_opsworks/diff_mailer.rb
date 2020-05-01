@@ -4,7 +4,7 @@ module CosukaOpsworks
     layout false
 
     def cron_diff(diff)
-      body <<~BODY
+      body = <<~BODY
         ```diff
         #{diff}
         ```
