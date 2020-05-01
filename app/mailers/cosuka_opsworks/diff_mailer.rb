@@ -4,7 +4,13 @@ module CosukaOpsworks
     layout false
 
     def cron_diff(diff)
-      mail to: CosukaOpsworks.diff_emails, subject: "[#{Socket.gethostname}] Cron diff", body: diff, content_type: 'text/plain'
+      body <<~BODY
+        ```diff
+        #{diff}
+        ```
+      BODY
+
+      mail to: CosukaOpsworks.diff_emails, subject: "[#{Socket.gethostname}] Cron diff", body: body, content_type: 'text/plain'
     end
   end
 end
