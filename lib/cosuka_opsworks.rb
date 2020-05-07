@@ -1,9 +1,10 @@
-require 'cosuka_opsworks/version'
-require 'cosuka_opsworks/engine'
+require "cosuka_opsworks/version"
+
+if defined?(::Rails::Railtie)
+  require "cosuka_opsworks/railtie"
+else
+  puts "Please CosukaOpsworks setup by manual."
+end
 
 module CosukaOpsworks
-  class << self
-    attr_accessor :from_email
-    attr_accessor :diff_emails
-  end
 end

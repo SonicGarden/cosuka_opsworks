@@ -29,6 +29,6 @@ Chef::Log.info("[INFO] update crontab")
 execute 'update crontab' do
   user deploy_user
   cwd current_release
-  command "/usr/local/bin/bundle exec rake cosuka_opsworks:update_cron"
+  command '/usr/local/bin/bundle exec whenever -i rails'
   environment 'RAILS_ENV' => env, 'MASTER_HOST' => master_server_hostname
 end
