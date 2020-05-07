@@ -37,21 +37,4 @@ namespace :cosuka_opsworks do
       ENV.replace(original_env)
     end
   end
-
-  desc 'Update crontab by config/schedule.rb'
-  task update_cron: :environment do
-    output_command = 'crontab -l | grep -v "# Begin Whenever" | grep -v "# End Whenever" | sed -e \'s/releases\/[0-9]\+/releases\/RELEASE_DIR/g\''
-    old_tmp = Tempfile.open('crontab')
-    old_crontab = `#{output_command} > #{old_tmp.path}`
-
-    Kernel.system('/usr/local/bin/bundle exec whenever -i rails', exception: true)
-
-    new_tmp = Tempfile.open('crontab')
-    new_crontab = `#{output_command} > #{new_tmp.path}`
-
-    diff = `diff -u #{old_tmp.path} #{new_tmp.path}`
-    if diff.present?
-      CosukaOpsworks::DiffMailer.cron_diff(diff).deliver_now
-    end
-  end
 end
