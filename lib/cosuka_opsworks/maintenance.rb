@@ -17,8 +17,9 @@ module CosukaOpsworks
     end
 
     private
-      def maintenance_mode?
-        File.exists?([Rails.root, 'tmp', 'stop.txt'].join('/'))
-      end
+
+    def maintenance_mode?
+      File.exist?([Rails.root, 'tmp', 'stop.txt'].join('/'))
+    end
   end
 end

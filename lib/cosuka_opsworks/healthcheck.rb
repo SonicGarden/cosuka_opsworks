@@ -16,25 +16,26 @@ module CosukaOpsworks
     end
 
     private
-      def healthcheck_request?(env)
-        /^\/healthchecks$/ =~ ::Rack::Request.new(env).path_info
-      end
 
-      def healthcheck(env)
-        headers = { 'Content-Type' => 'text/html' }
+    def healthcheck_request?(env)
+      %r{^/healthchecks$} =~ ::Rack::Request.new(env).path_info
+    end
 
-        if database_accessible?
-          [200, headers, ['OK']]
-        else
-          [503, headers, ['ERROR']]
-        end
-      end
+    def healthcheck(env)
+      headers = { 'Content-Type' => 'text/html' }
 
-      def database_accessible?
-        !!ActiveRecord::Base.connection.tables.sort.first
-      rescue => e
-        Rails.logger.error "[CosukaOpsworks] Failed to connect database. #{e.inspect}"
-        false
+      if database_accessible?
+        [200, headers, ['OK']]
+      else
+        [503, headers, ['ERROR']]
       end
+    end
+
+    def database_accessible?
+      !!ActiveRecord::Base.connection.tables.min
+    rescue StandardError => e
+      Rails.logger.error "[CosukaOpsworks] Failed to connect database. #{e.inspect}"
+      false
+    end
   end
 end

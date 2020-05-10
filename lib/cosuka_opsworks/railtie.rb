@@ -4,7 +4,7 @@ require 'cosuka_opsworks/disk_space'
 
 module CosukaOpsworks
   class Railtie < ::Rails::Railtie
-    initializer :initialize_coska_opsworks do |app|
+    initializer :initialize_coska_opsworks do |_app|
       unless ::Rails.env.in?(%w[development test])
         middleware = ::Rails.configuration.middleware
         middleware.insert 0, CosukaOpsworks::Healthcheck

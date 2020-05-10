@@ -17,8 +17,8 @@ set :backup_file, "#{path}/config/backup.rb"
 set :estimate_time, 180
 set :chronic_options, hours24: true
 
-job_type :rake, "cd :path && RAILS_ENV=:environment bundle exec rake :task :output"
-job_type :backup, "cd :path && RAILS_ENV=:environment backup perform :task :output"
+job_type :rake, 'cd :path && RAILS_ENV=:environment bundle exec rake :task :output'
+job_type :backup, 'cd :path && RAILS_ENV=:environment backup perform :task :output'
 job_type :jobmon, 'cd :path && RAILS_ENV=:environment bundle exec jobmon --estimate-time :estimate_time :task :output'
 
 if rails_env == 'production'

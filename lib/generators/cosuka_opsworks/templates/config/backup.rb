@@ -8,7 +8,7 @@ require 'dotenv'
 
 rails_env = 'production'
 app_name = 'sample-app-name' # FIXME
-rails_root    = "/srv/www/rails/current"
+rails_root    = '/srv/www/rails/current'
 log_directory = "#{rails_root}/log"
 
 host_name = Socket.gethostname

@@ -3,7 +3,7 @@ require 'cosuka_opsworks/nginx_status'
 
 describe CosukaOpsworks::NginxStatus do
   describe '#usage' do
-    let(:status) {CosukaOpsworks::NginxStatus.new }
+    let(:status) { CosukaOpsworks::NginxStatus.new }
 
     context 'worker_connections = 1024, active_connections = 10' do
       it '1%' do

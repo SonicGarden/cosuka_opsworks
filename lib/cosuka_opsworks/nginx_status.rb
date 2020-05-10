@@ -19,6 +19,7 @@ module CosukaOpsworks
       if Process.last_status.exitstatus != 0
         raise "command error: #{cmd}"
       end
+
       output
     end
   end
