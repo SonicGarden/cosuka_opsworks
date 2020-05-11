@@ -2,7 +2,6 @@
 require 'socket'
 
 host_name = Socket.gethostname
-app_name = 'rails'
 rails_env = ENV['RAILS_ENV'] || ENV['RACK_ENV']
 
 env :CRON_TZ, 'Japan'
