@@ -1,9 +1,9 @@
-require "cosuka_opsworks/version"
+require 'cosuka_opsworks/version'
 
 if defined?(::Rails::Railtie)
-  require "cosuka_opsworks/railtie"
+  require 'cosuka_opsworks/railtie'
 else
-  puts "Please CosukaOpsworks setup by manual."
+  puts 'Please CosukaOpsworks setup by manual.'
 end
 
 module CosukaOpsworks

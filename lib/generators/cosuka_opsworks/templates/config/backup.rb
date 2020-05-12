@@ -8,7 +8,7 @@ require 'dotenv'
 
 rails_env = 'production'
 app_name = 'sample-app-name' # FIXME
-rails_root    = "/srv/www/rails/current"
+rails_root    = '/srv/www/rails/current'
 log_directory = "#{rails_root}/log"
 
 host_name = Socket.gethostname
@@ -17,7 +17,7 @@ log_file_name_sym = (host_name + '_log').to_sym
 
 Dotenv.load("#{rails_root}/.env")
 data = YAML.load_file("#{rails_root}/config/database.yml")
-secrets = YAML.load(ERB.new(File.read("#{rails_root}/config/secrets.yml")).result)
+secrets = YAML.safe_load(ERB.new(File.read("#{rails_root}/config/secrets.yml")).result, [], [], true)
 mandrill = secrets[rails_env]['mandrill']
 aws_s3 = secrets[rails_env]['s3']
 

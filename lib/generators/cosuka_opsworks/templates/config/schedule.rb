@@ -2,7 +2,6 @@
 require 'socket'
 
 host_name = Socket.gethostname
-app_name = 'rails'
 rails_env = ENV['RAILS_ENV'] || ENV['RACK_ENV']
 
 env :CRON_TZ, 'Japan'
@@ -17,9 +16,9 @@ set :backup_file, "#{path}/config/backup.rb"
 set :estimate_time, 180
 set :chronic_options, hours24: true
 
-job_type :rake, "cd :path && RAILS_ENV=:environment bundle exec rake :task :output"
-job_type :backup, "cd :path && RAILS_ENV=:environment backup perform :task :output"
-# job_type :jobmon, 'cd :path && RAILS_ENV=:environment bundle exec jobmon --estimate-time :estimate_time --task :task :output'
+job_type :rake, 'cd :path && RAILS_ENV=:environment bundle exec rake :task :output'
+job_type :backup, 'cd :path && RAILS_ENV=:environment backup perform :task :output'
+job_type :jobmon, 'cd :path && RAILS_ENV=:environment bundle exec jobmon --estimate-time :estimate_time :task :output'
 
 if rails_env == 'production'
   if host_name == ENV['MASTER_HOST']
@@ -35,6 +34,6 @@ end
 
 every 30.minutes do
   rake 'cosuka_opsworks:watch_disk_space'
-  # NOTE: jobmonを利用する場合は、job_type :jobmonを有効にした上でこちら推奨
+  # NOTE: jobmonを利用する場合はこちら推奨
   # jobmon 'cosuka_opsworks:watch_disk_space'
 end
