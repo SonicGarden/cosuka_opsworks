@@ -104,3 +104,12 @@ Nginx コネクション数が`80`%以上
 ```
 cosuka_opsworks:watch_nginx_connections
 ```
+
+## Github workflows
+
+`rails g cosuka_opsworks` で追加される Github workflows です。
+
+### check-whenever-config
+whenever の設定ファイル(schedule/config.rb)はうっかり間違った設定をしがちなのでチェックします。
+
+see: https://github.com/shunichi/github-action-whenever-checker
