@@ -14,6 +14,10 @@ set :path, File.realpath('../', __dir__)
 set :output, "#{path}/log/batch.log"
 set :backup_file, "#{path}/config/backup.rb"
 set :estimate_time, 180
+
+# Use 24-hour clock to avoid errors
+# OK: 03:00, 18:00
+# NG: 3:00 am, 6:00 pm
 set :chronic_options, hours24: true
 
 job_type :rake, 'cd :path && RAILS_ENV=:environment bundle exec rake :task :output'

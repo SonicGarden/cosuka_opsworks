@@ -109,7 +109,7 @@ cosuka_opsworks:watch_nginx_connections
 
 `rails g cosuka_opsworks` で追加される Github workflows です。
 
-### check-whenever-config
-whenever の設定ファイル(schedule/config.rb)はうっかり間違った設定をしがちなのでチェックします。
+### cosuka-opsworks-action
+whenever の設定ファイルに変更があれば、crontabの差分をPRにコメントしてくれます。
 
-see: https://github.com/shunichi/github-action-whenever-checker
+see: https://github.com/SonicGarden/cosuka-opsworks-action
