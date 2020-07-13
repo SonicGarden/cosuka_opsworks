@@ -104,3 +104,12 @@ Nginx コネクション数が`80`%以上
 ```
 cosuka_opsworks:watch_nginx_connections
 ```
+
+## Github workflows
+
+`rails g cosuka_opsworks` で追加される Github workflows です。
+
+### cosuka-opsworks-action
+whenever の設定ファイルに変更があれば、crontabの差分をPRにコメントしてくれます。
+
+see: https://github.com/SonicGarden/cosuka-opsworks-action

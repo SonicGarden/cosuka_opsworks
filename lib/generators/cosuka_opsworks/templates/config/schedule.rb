@@ -14,6 +14,10 @@ set :path, File.realpath('../', __dir__)
 set :output, "#{path}/log/batch.log"
 set :backup_file, "#{path}/config/backup.rb"
 set :estimate_time, 180
+
+# Use 24-hour clock to avoid errors
+# OK: 03:00, 18:00
+# NG: 3:00 am, 6:00 pm
 set :chronic_options, hours24: true
 
 job_type :rake, 'cd :path && RAILS_ENV=:environment bundle exec rake :task :output'
@@ -22,12 +26,12 @@ job_type :jobmon, 'cd :path && RAILS_ENV=:environment bundle exec jobmon --estim
 
 if rails_env == 'production'
   if host_name == ENV['MASTER_HOST']
-    every 1.day, at: '2:00 am' do
+    every 1.day, at: '02:00' do
       backup "-t #{host_name}_data --config_file '#{backup_file}'"
     end
   end
 
-  every 1.day, at: '7:10 am' do
+  every 1.day, at: '07:10' do
     backup "-t #{host_name}_log --config_file '#{backup_file}'"
   end
 end
