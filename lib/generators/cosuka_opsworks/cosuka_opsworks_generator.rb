@@ -6,6 +6,8 @@ class CosukaOpsworksGenerator < Rails::Generators::Base
     template 'deploy/after_restart.rb'
     template 'config/backup.rb'
     template 'config/schedule.rb'
-    template '.github/workflows/check-whenever-config.yml'
+
+    # NOTE: `template '.github/workflows/check-whenever-config.yml'`だと機能しなかったので
+    template 'github/workflows/check-whenever-config.yml', '.github/workflows/check-whenever-config.yml'
   end
 end
