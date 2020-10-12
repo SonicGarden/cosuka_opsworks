@@ -12,14 +12,16 @@ Chef::Log.info('[INFO] Analize node info')
 env = node[:deploy][app][:global][:environment]
 Chef::Log.info("[INFO] Detected ENV:#{env}")
 
-if env == 'production'
-  execute 'rake copy_tuner:deploy' do
-    cwd current_release
-    user deploy_user
-    command '/usr/local/bin/bundle exec rake copy_tuner:deploy'
-    environment 'RAILS_ENV' => env
-  end
-end
+# デフォルトではデプロイ時の自動公開処理は無効化してあります。必要ならコメントを外してください。
+# タイムベースのインスタンスの起動時、障害からの自動復旧時などに、意図せず CopyTuner の公開処理が走ることがあるので危険です。
+# if env == 'production'
+#   execute 'rake copy_tuner:deploy' do
+#     cwd current_release
+#     user deploy_user
+#     command '/usr/local/bin/bundle exec rake copy_tuner:deploy'
+#     environment 'RAILS_ENV' => env
+#   end
+# end
 
 # ref) http://docs.aws.amazon.com/ja_jp/opsworks/latest/userguide/data-bag-json-instance.html
 master_server_hostname = search('aws_opsworks_instance', 'status:online OR status:running_setup OR status:requested OR status:booting').map { |instance| instance['hostname'] }.min
