@@ -12,9 +12,13 @@ Chef::Log.info('[INFO] Analize node info')
 env = node[:deploy][app][:global][:environment]
 Chef::Log.info("[INFO] Detected ENV:#{env}")
 
+# ref) http://docs.aws.amazon.com/ja_jp/opsworks/latest/userguide/data-bag-json-instance.html
+master_server_hostname = search('aws_opsworks_instance', 'status:online OR status:running_setup OR status:requested OR status:booting').map { |instance| instance['hostname'] }.min
+Chef::Log.info("[INFO] Detected MASTER_SERVER_HOSTNAME:#{master_server_hostname}")
+
 # デフォルトではデプロイ時の自動公開処理は無効化してあります。必要ならコメントを外してください。
 # タイムベースのインスタンスの起動時、障害からの自動復旧時などに、意図せず CopyTuner の公開処理が走ることがあるので危険です。
-# if env == 'production'
+# if env == 'production' && hostname == master_server_hostname
 #   execute 'rake copy_tuner:deploy' do
 #     cwd current_release
 #     user deploy_user
@@ -22,10 +26,6 @@ Chef::Log.info("[INFO] Detected ENV:#{env}")
 #     environment 'RAILS_ENV' => env
 #   end
 # end
-
-# ref) http://docs.aws.amazon.com/ja_jp/opsworks/latest/userguide/data-bag-json-instance.html
-master_server_hostname = search('aws_opsworks_instance', 'status:online OR status:running_setup OR status:requested OR status:booting').map { |instance| instance['hostname'] }.min
-Chef::Log.info("[INFO] Detected MASTER_SERVER_HOSTNAME:#{master_server_hostname}")
 
 Chef::Log.info('[INFO] update crontab')
 execute 'update crontab' do
