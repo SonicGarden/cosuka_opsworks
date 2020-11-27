@@ -3,7 +3,7 @@
 Rails アプリを OpsWroks で動かす際に以下の機能を提供
 
 - ELB による Healthcheck のための受け口を提供（DB 疎通確認あり）
-- \${RAILS_ROOT}/tmp/stop.txt 配置でメンテナンス画面を表示
+- メンテナンス画面を表示
 - ディスク残容量の監視
 
 ## 注意
@@ -105,11 +105,46 @@ Nginx コネクション数が`80`%以上
 cosuka_opsworks:watch_nginx_connections
 ```
 
+### `cosuka_opsworks:maintenance:start[name]`
+
+メンテナンスモード開始
+
+#### default args
+
+- name: `''`
+
+#### Usage
+
+メンテナンスモード開始(public/503.html を表示)
+
+```
+cosuka_opsworks:maintenance:start
+```
+
+メンテナンスモード開始(public/503_db_upgrade.html を表示)
+
+```
+cosuka_opsworks:maintenance:start[503_db_upgrade]
+```
+
+### `cosuka_opsworks:maintenance:stop`
+
+メンテナンスモード終了
+
+#### Usage
+
+メンテナンスモード終了
+
+```
+cosuka_opsworks:maintenance:stop
+```
+
 ## Github workflows
 
 `rails g cosuka_opsworks` で追加される Github workflows です。
 
 ### cosuka-opsworks-action
-whenever の設定ファイルに変更があれば、crontabの差分をPRにコメントしてくれます。
+
+whenever の設定ファイルに変更があれば、crontab の差分を PR にコメントしてくれます。
 
 see: https://github.com/SonicGarden/cosuka-opsworks-action
