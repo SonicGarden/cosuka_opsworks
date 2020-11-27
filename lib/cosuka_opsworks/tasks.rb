@@ -37,4 +37,22 @@ namespace :cosuka_opsworks do
       ENV.replace(original_env)
     end
   end
+
+  namespace :maintenance do
+    desc 'Start maintenance'
+    task :start, [:name] do |_, args|
+      args.with_defaults(name: '')
+      if args[:name].present? && !File.exist?(Rails.public_path.join("#{args[:name]}.html"))
+        raise ArgumentError.new("Invalid name: #{args[:name]}")
+      end
+
+      IO.write(Rails.root.join('tmp/stop.txt'), args[:name])
+    end
+
+    desc 'Stop maintenance'
+    task :stop do
+      path = Rails.root.join('tmp/stop.txt')
+      File.delete(path) if File.exist?(path)
+    end
+  end
 end
