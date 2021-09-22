@@ -30,6 +30,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'whenever'
   spec.add_dependency 'dotenv-rails'
   spec.add_dependency 'json'
+  spec.add_dependency 'cosuka_pi_count'
 
   spec.add_development_dependency 'rake'
   spec.add_development_dependency 'rspec', '~> 2.3'

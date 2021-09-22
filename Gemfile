@@ -4,3 +4,4 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'sgcop', github: 'SonicGarden/sgcop'
+gem 'cosuka_pi_count', github: 'SonicGarden/cosuka_pi_count', branch: 'main'
