@@ -17,7 +17,7 @@ log_file_name_sym = (host_name + '_log').to_sym
 
 Dotenv.load("#{rails_root}/.env")
 data = YAML.load_file("#{rails_root}/config/database.yml")
-secrets = YAML.safe_load(ERB.new(File.read("#{rails_root}/config/secrets.yml")).result, [], [], true)
+secrets = YAML.safe_load(ERB.new(File.read("#{rails_root}/config/secrets.yml")).result, aliases: true)
 mandrill = secrets[rails_env]['mandrill']
 aws_s3 = secrets[rails_env]['s3']
 
