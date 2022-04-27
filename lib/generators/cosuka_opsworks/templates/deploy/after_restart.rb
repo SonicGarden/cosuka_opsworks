@@ -1,10 +1,8 @@
 Chef::Log.info('[INFO] Start deploy/after_restart.rb')
 require 'socket'
 app = :rails
-role = 'rails-app'
 hostname = Socket.gethostname
 deploy_user = 'deploy'
-time = Time.now.strftime('%Y%m%d_%H%M_%Z')
 current_release = release_path
 Chef::Log.info("[INFO] Execute after_restart.rb in #{hostname}. USER:#{deploy_user}, CWD:#{current_release}")
 
