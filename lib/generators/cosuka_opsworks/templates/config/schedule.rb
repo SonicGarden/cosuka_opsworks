@@ -6,7 +6,7 @@ rails_env = ENV['RAILS_ENV'] || ENV['RACK_ENV']
 
 env :CRON_TZ, 'Japan'
 env :PATH, '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-env :MASTER_HOST, ENV['MASTER_HOST']
+env :MASTER_HOST, ENV.fetch('MASTER_HOST')
 
 set :environment, rails_env
 set :job_template, nil
@@ -40,4 +40,8 @@ every 30.minutes do
   rake 'cosuka_opsworks:watch_disk_space'
   # NOTE: jobmonを利用する場合はこちら推奨
   # jobmon 'cosuka_opsworks:watch_disk_space'
+end
+
+if host_name == ENV.fetch('MASTER_HOST')
+  # マスターホストでのみ実行するジョブはここに記述
 end
