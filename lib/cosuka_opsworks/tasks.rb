@@ -38,6 +38,12 @@ namespace :cosuka_opsworks do
     end
   end
 
+  desc 'sg_tiny_backupの不要なエラー抑制のためにRAILS_ENV.log.1が存在しなければ生成'
+  task touch_last_logfile: :environment do
+    log_path = Rails.root.join('log', "#{Rails.env}.log.1")
+    FileUtils.touch(log_path) unless File.exist?(log_path)
+  end
+
   namespace :maintenance do
     desc 'Start maintenance'
     task :start, [:name] do |_, args|
@@ -55,4 +61,8 @@ namespace :cosuka_opsworks do
       File.delete(path) if File.exist?(path)
     end
   end
+end
+
+if Rake::Task.task_defined?('sg_tiny_backup:backup')
+  Rake::Task['sg_tiny_backup:backup'].enhance(['cosuka_opsworks:touch_last_logfile'])
 end
