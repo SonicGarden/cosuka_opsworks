@@ -15,7 +15,7 @@ chef11 の環境で利用する場合は、 **chef11** ブランチを利用し�
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'cosuka_opsworks', git: 'https://github.com/SonicGarden/cosuka_opsworks.git'
+gem 'cosuka_opsworks', github: 'SonicGarden/cosuka_opsworks'
 ```
 
 And then execute:
