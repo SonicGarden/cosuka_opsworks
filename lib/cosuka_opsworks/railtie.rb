@@ -12,8 +12,13 @@ module CosukaOpsworks
       end
     end
 
-    rake_tasks do
-      load 'cosuka_opsworks/tasks.rb'
-    end
+    Rails::Engine.prepend(Module.new do
+      def load_tasks
+        super
+
+        # NOTE: should add after sg_tiny_backup's tasks
+        load 'cosuka_opsworks/tasks.rb'
+      end
+    end)
   end
 end
