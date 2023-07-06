@@ -35,6 +35,8 @@ module CosukaOpsworks
       !!ActiveRecord::Base.connection.tables.min
     rescue StandardError => e
       Rails.logger.error "[CosukaOpsworks] Failed to connect database. #{e.inspect}"
+      # NOTE: RDSがMultiAZの際にfailoverした場合にコネクションプールを破棄して再接続し直す
+      ActiveRecord::Base.clear_all_connections!
       false
     end
   end
